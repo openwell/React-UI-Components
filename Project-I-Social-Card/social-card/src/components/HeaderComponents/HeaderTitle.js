@@ -1,11 +1,11 @@
 import React from "react";
 import "./Header.css";
 
-const HeaderTitle = ({ title }) => {
+const HeaderTitle = ({ title, time }) => {
   return (
     <div className="HeaderTitle">
       <p>
-        {title} <span>@lambda 12:00pm</span>
+        {title} <span>@lambda {time}</span>
       </p>
     </div>
   );
