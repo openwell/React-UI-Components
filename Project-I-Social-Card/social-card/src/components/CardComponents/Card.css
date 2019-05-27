@@ -1,1 +1,17 @@
 /* All styles for your Card Components live here */
+.CardContainer {
+  margin-left: 78.9219px;
+  margin-right: 5px;
+  border: 1px solid grey;
+  cursor: pointer;
+}
+.CardContent{
+  padding: 10px;
+}
+.CardBanner img {
+  width: 100%;
+}
+a:link {
+  text-decoration: none;
+  font-style: none;
+}

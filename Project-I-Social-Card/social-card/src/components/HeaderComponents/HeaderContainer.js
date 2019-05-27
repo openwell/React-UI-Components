@@ -13,7 +13,7 @@ const headerContainer = () => {
   return (
     <div className="HeaderContainer">
       <ImageThumbnail title={data.src}/>
-      <div>
+      <div className='HeaderContainer_Sub'>
         <HeaderTitle title={data.title}/>
         <HeaderContent title={data.content}/>
       </div>
