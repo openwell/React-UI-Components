@@ -1,0 +1,17 @@
+.container {
+  max-width: 40rem;
+  height: auto;
+  border: .1rem solid grey;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 auto;
+  background: white;
+  margin-top: 5rem;
+}
+
+.layerOne {
+}
+.layerTwo {
+}
+.layerThree {
+}
