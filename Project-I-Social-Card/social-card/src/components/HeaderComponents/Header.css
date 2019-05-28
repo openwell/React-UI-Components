@@ -1,1 +1,22 @@
 /* All styles for your header Components live here */
+.HeaderContainer {
+  background: white;
+  margin: 0 auto;
+  display: flex;
+  border: 1px solid grey;
+}
+.HeaderContainer_Sub{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.HeaderThumbnail {
+  width: 200px;
+}
+.HeaderThumbnail img{
+    width: 100%;
+}
+
+.HeaderContent {
+  width: 100%;
+}
