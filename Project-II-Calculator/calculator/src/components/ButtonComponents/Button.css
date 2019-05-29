@@ -1,0 +1,23 @@
+.Button{
+    background: white;
+    padding: 2rem;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    font-size: 3rem;
+    font-weight: 800;
+}
+.Button:hover{
+    background: rgb(241, 236, 236);
+}
+
+.Action{
+    padding: 2rem;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    font-size: 3rem;
+}
+.Action:hover{
+    background: rgba(160, 0, 29, 0.342);
+}
