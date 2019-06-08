@@ -3,52 +3,67 @@ import "./App.css";
 import CalculatorDisplay from "./components/DisplayComponents/CalculatorDisplay";
 import NumberButton from "./components/ButtonComponents/NumberButton";
 import ActionButton from "./components/ButtonComponents/ActionButton";
-
 class App extends Component {
   state = {
-    screen: 1,
-    hasError: false,
-    operand1: [],
-    operand2: [],
-    operator: ""
+    screen: 0,
+    prev: "",
+    operator: "",
+    operatorClicked: false
   };
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
+  // console.log(myState, updateMyState);
+  style = {
+    flex2: { flex: "25%" },
+    flex2Red: { flex: "25%", background: "#A0001E", color: "white" },
+    flex3: { flex: "75%" }
+  };
 
-  clickHandler = event => {
-    let screen = { ...this.state.screen };
-    screen = event.target.innerText;
-    if (isNaN(screen)) {
-      this.setState({ operator: screen });
-      return this.setState({ screen: screen });
-    } else {
-      if (isNaN(this.state.screen) || this.state.operand2.length > 0) {
-        if (this.state.operand2.length === 12) {
-          return null;
-        }
-        let num2 = this.state.operand2.concat([screen]);
-        this.setState({ operand2: num2 });
-        return this.setState({ screen: num2 });
-      }
-      // if (this.state.operand1.length === 12) {
-      //   return null;
-      // }
-      let num1 = this.state.operand1.concat([screen]);
-      this.setState({ operand1: num1 });
-      return this.setState({ screen: num1 });
+  clearHandler = () => {
+    this.setState({ screen: '' });
+  };
+  appendHandler = num => {
+    if (this.state.operatorClicked) {
+      this.setState({ screen: '', operatorClicked: false });
     }
-    // this.setState({ screen });
-    // console.log(event.target.innerText, screen);
+    this.setState(state => ({ screen: `${state.screen}${num}` }));
+  };
+  addHandler = () => {
+    this.setState(state => ({
+      operator: (a, b) => a + b,
+      operatorClicked: true,
+      prev: state.screen
+    }));
+  };
+  subtractHandler = () => {
+    this.setState(state => ({
+      operator: (a, b) => a - b,
+      operatorClicked: true,
+      prev: state.screen
+    }));
+  };
+  multiplyHandler = () => {
+    this.setState(state => ({
+      operator: (a, b) => a * b,
+      operatorClicked: true,
+      prev: state.screen
+    }));
+  };
+  divideHandler = () => {
+    this.setState(state => ({
+      operator: (a, b) => a / b,
+      operatorClicked: true,
+      prev: state.screen
+    }));
+  };
+  equalHandler = () => {
+    this.setState(state => ({
+      screen: `${state.operator(
+        parseFloat(state.screen),
+        parseFloat(state.prev)
+      )}`,
+      prev: null
+    }));
   };
   render() {
-    const style = {
-      flex2: { flex: "25%" },
-      flex2Red: { flex: "25%", background: "#A0001E", color: "white" },
-      flex3: { flex: "75%" },
-      layer1: [7, 8, 9, "x", 4, 5, 6, "-", 1, 2, 3, "+"],
-      layer2: [0, "="]
-    };
     return (
       <div className="container">
         <div className="layerOne">
@@ -56,48 +71,87 @@ class App extends Component {
         </div>
         <div className="layerTwo">
           <ActionButton
-            click={this.clickHandler}
-            style={style.flex3}
+            click={() => this.clearHandler()}
+            style={this.style.flex3}
             symbol={"Clear"}
           />
           <ActionButton
-            click={this.clickHandler}
-            style={style.flex2Red}
+            click={() => this.divideHandler()}
+            style={this.style.flex2Red}
             symbol={"÷"}
           />
         </div>
         <div className="layerThree">
-          {style.layer1.map(element => {
-            if (!isNaN(element)) {
-              return (
-                <NumberButton
-                  key={element}
-                  click={this.clickHandler}
-                  style={style.flex2}
-                  number={element}
-                />
-              );
-            } else {
-              return (
-                <ActionButton
-                  key={element}
-                  click={this.clickHandler}
-                  style={style.flex2Red}
-                  symbol={element}
-                />
-              );
-            }
-          })}
+          <NumberButton
+            click={() => this.appendHandler(7)}
+            style={this.style.flex2}
+            number={"7"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(8)}
+            style={this.style.flex2}
+            number={"8"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(9)}
+            style={this.style.flex2}
+            number={"9"}
+          />
+          <ActionButton
+            click={() => this.multiplyHandler()}
+            style={this.style.flex2Red}
+            symbol={"x"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(4)}
+            style={this.style.flex2}
+            number={"4"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(5)}
+            style={this.style.flex2}
+            number={"5"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(6)}
+            style={this.style.flex2}
+            number={"6"}
+          />
+          <ActionButton
+            click={() => this.subtractHandler()}
+            style={this.style.flex2Red}
+            symbol={"-"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(1)}
+            style={this.style.flex2}
+            number={"1"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(2)}
+            style={this.style.flex2}
+            number={"2"}
+          />
+          <NumberButton
+            click={() => this.appendHandler(3)}
+            style={this.style.flex2}
+            number={"3"}
+          />
+          <ActionButton
+            click={() => this.addHandler()}
+            style={this.style.flex2Red}
+            symbol={"+"}
+          />
         </div>
         <div className="layerFour">
           <NumberButton
-            click={this.clickHandler}
-            style={style.flex3}
+            click={() => this.appendHandler(0)}
+            style={this.style.flex3}
             number={"0"}
           />
           <ActionButton
-            click={this.clickHandler}
-            style={style.flex2Red}
+            click={() => this.equalHandler()}
+            style={this.style.flex2Red}
             symbol={"="}
           />
         </div>
