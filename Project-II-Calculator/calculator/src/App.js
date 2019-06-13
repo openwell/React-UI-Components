@@ -3,66 +3,105 @@ import "./App.css";
 import CalculatorDisplay from "./components/DisplayComponents/CalculatorDisplay";
 import NumberButton from "./components/ButtonComponents/NumberButton";
 import ActionButton from "./components/ButtonComponents/ActionButton";
+
 class App extends Component {
   state = {
-    screen: 0,
-    prev: "",
-    operator: "",
+    screen: "0",
+    prev: null,
+    operator: null,
     operatorClicked: false
   };
   // console.log(myState, updateMyState);
   style = {
     flex2: { flex: "25%" },
-    flex2Red: { flex: "25%", background: "#A0001E", color: "white" },
+    flex2Red: {
+      flex: "25%",
+      background: `linear-gradient(to bottom, rgba(252,156,23,1) 0%, rgba(247,126,27,1) 100%)`,
+      color: "white"
+    },
     flex3: { flex: "75%" }
   };
 
   clearHandler = () => {
-    this.setState({ screen: '' });
+    this.setState({
+      screen: "0",
+      prev: null,
+      operator: null,
+      operatorClicked: false
+    });
   };
   appendHandler = num => {
     if (this.state.operatorClicked) {
-      this.setState({ screen: '', operatorClicked: false });
+      this.setState({
+        screen: String(num),
+        operatorClicked: false
+      });
+    } else {
+      this.setState(state => ({
+        screen: state.screen === "0" ? num + "" : state.screen + String(num)
+      }));
     }
-    this.setState(state => ({ screen: `${state.screen}${num}` }));
   };
+  helper=()=>{
+    if (this.state.prev === null) {
+      this.setState(state => ({
+        prev: state.screen
+      }));
+    }
+
+    if (typeof this.state.operator === "function") {
+      this.setState(state => ({
+        screen: parseFloat(
+          `${state.operator(parseFloat(state.prev), parseFloat(state.screen))}`
+        ),
+        prev: parseFloat(
+          `${state.operator(parseFloat(state.prev), parseFloat(state.screen))}`
+        )
+      }));
+    }
+  }
   addHandler = () => {
-    this.setState(state => ({
+    this.helper()
+    this.setState({
       operator: (a, b) => a + b,
-      operatorClicked: true,
-      prev: state.screen
-    }));
+      operatorClicked: true
+    });
   };
   subtractHandler = () => {
-    this.setState(state => ({
+    this.helper()
+    this.setState({
       operator: (a, b) => a - b,
-      operatorClicked: true,
-      prev: state.screen
-    }));
+      operatorClicked: true
+    });
   };
   multiplyHandler = () => {
-    this.setState(state => ({
+    this.helper()
+    this.setState({
       operator: (a, b) => a * b,
-      operatorClicked: true,
-      prev: state.screen
-    }));
+      operatorClicked: true
+    });
   };
   divideHandler = () => {
-    this.setState(state => ({
+    this.helper()
+    this.setState({
       operator: (a, b) => a / b,
-      operatorClicked: true,
-      prev: state.screen
-    }));
+      operatorClicked: true
+    });
   };
   equalHandler = () => {
-    this.setState(state => ({
-      screen: `${state.operator(
-        parseFloat(state.screen),
-        parseFloat(state.prev)
-      )}`,
-      prev: null
-    }));
+    if (typeof this.state.operator === "function") {
+      this.setState(state => ({
+        screen: `${state.operator(
+          parseFloat(state.prev),
+          parseFloat(state.screen)
+        )}`,
+        operatorClicked: false,
+        prev: null,
+        operator: null
+      }));
+    }
   };
+
   render() {
     return (
       <div className="container">
